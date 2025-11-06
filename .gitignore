@@ -8,3 +8,12 @@ wheels/
 
 # Virtual environments
 .venv
+
+# JetBrains
+/.idea
+
+# Visual Studio Code
+/.vscode
+
+# We don't publish as executable
+/uv.lock
