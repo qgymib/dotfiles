@@ -5,15 +5,11 @@ import os
 import sys
 from pathlib import Path
 from typing import Iterable, List
+from dotfiles import DotFiles
+from dotfiles.package import Manager
 
 MARK_START = "# >>> dotfiles PATH >>>"
 MARK_END = "# <<< dotfiles PATH <<<"
-
-
-def get_bin_dir() -> Path:
-    """Return the absolute path to this project's bin directory."""
-    return (Path(__file__).resolve().parent / "bin").resolve()
-
 
 def get_candidate_profile_files() -> List[Path]:
     """Return a prioritized list of shell profile files to edit on Linux.
@@ -130,23 +126,35 @@ def uninstall_path() -> None:
 
 def parse_args(argv: Iterable[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="dotfiles utility")
+    # Flags for install/uninstall dotfiles $PATH environment
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--install", action="store_true", help="Install: add ./bin to PATH in your shell profile(s)")
     group.add_argument("--uninstall", action="store_true",
                        help="Uninstall: remove the PATH block from your shell profile(s)")
+
+    # Subcommands
+    subparsers = parser.add_subparsers(dest="command")
+
+    # search subcommand
+    search_parser = subparsers.add_parser("search", help="Search available packages")
+    search_parser.add_argument("pattern", metavar="PATTERN", help="Search available packages matching PATTERN")
+
     return parser.parse_args(list(argv))
 
 
 def main(argv: Iterable[str] | None = None) -> None:
     args = parse_args(sys.argv[1:] if argv is None else argv)
     if args.install:
-        install_path(get_bin_dir())
+        install_path(DotFiles.get_bin_dir())
         return
     if args.uninstall:
         uninstall_path()
         return
+    if getattr(args, "command", None) == "search":
+        Manager().search(args.pattern)
+        return
     # Default behavior
-    print("Hello from dotfiles! Use --install or --uninstall. ")
+    print("Hello from dotfiles! Usage: ./main.py search PATTERN | --install | --uninstall")
 
 
 if __name__ == "__main__":
