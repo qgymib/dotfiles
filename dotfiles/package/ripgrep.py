@@ -2,7 +2,7 @@ from dotfiles.package import PackageAPI, PackageInfo, QuickInstallPackage, Quick
 import platform
 
 VERSION = "15.1.0"
-URL = "https://github.com/BurntSushi/ripgrep/releases/download/${version}/ripgrep-${version}-${arch}-unknown-linux-${libc}.tar.gz"
+URL = "https://github.com/BurntSushi/ripgrep/releases/download/{version}/ripgrep-{version}-{arch}-unknown-linux-{libc}.tar.gz"
 
 
 def get_arch() -> str:
