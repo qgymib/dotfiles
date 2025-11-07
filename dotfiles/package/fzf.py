@@ -20,6 +20,8 @@ def _get_arch() -> str:
 
     if machine in ['x86_64', 'amd64']:
         return 'amd64'
+    elif machine == 'aarch64':
+        return 'arm64'
     elif machine.startswith('armv7'):
         return 'armv7'
     elif machine.startswith('armv6'):
