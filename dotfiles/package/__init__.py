@@ -208,17 +208,21 @@ class Manager:
     def install(self, package_name: str) -> None:
         name = package_name.lower()
         if name in self.packages:
+            print(f"Installing package {name}")
             self.packages[name].install()
+            print(f"Package `{name}` installed")
         else:
-            print(f"Package {name} not found")
+            print(f"Package `{name}` not found")
             sys.exit(1)
 
     def uninstall(self, package_name: str) -> None:
         name = package_name.lower()
         if name in self.packages:
+            print(f"Uninstalling package `{name}`")
             self.packages[name].uninstall()
+            print(f"Package `{name}` uninstalled")
         else:
-            print(f"Package {name} not found")
+            print(f"Package `{name}` not found")
             sys.exit(1)
 
     def search(self, pattern: str) -> None:
