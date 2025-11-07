@@ -1,1 +1,4 @@
-!README.md
+*
+!/.gitignore
+!/apps/.gitignore
+!/README.md
