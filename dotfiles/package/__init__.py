@@ -90,7 +90,7 @@ class QuickInstallPackage:
             if self.install_dir.exists():
                 shutil.rmtree(self.install_dir)
 
-            QuickInstallPackage._uncompress(temp_file.name, self.install_dir, self.name)
+            QuickInstallPackage._uncompress(temp_file.name, DotFiles.get_app_dir(), self.name)
 
             bin_dir = DotFiles.get_bin_dir()
             for src, dst in self.symbol.items():
@@ -133,17 +133,16 @@ class QuickInstallPackage:
             if not contents:
                 raise ValueError("Compressed file is empty")
 
-            # Create the target directory if it doesn't exist
+            # Clear the target directory if it doesn't exist
             target_dir = out_path / name
             if target_dir.exists():
                 shutil.rmtree(target_dir)
-            target_dir.mkdir(parents=True)
 
-            # Handle subfolder detection
             if len(contents) == 1 and contents[0].is_dir():
                 # Single directory - rename it
                 shutil.move(str(contents[0]), target_dir)
             else:
+                target_dir.mkdir(parents=True)
                 # Multiple items - move all to the new directory
                 for item in contents:
                     shutil.move(str(item), target_dir)
