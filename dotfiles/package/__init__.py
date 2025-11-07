@@ -178,7 +178,7 @@ class QuickUninstallPackage:
         bin_dir = DotFiles.get_bin_dir()
         for item in self.symbol:
             symbol_link = bin_dir / item
-            if symbol_link.exists():
+            if symbol_link.exists() or symbol_link.is_symlink():
                 symbol_link.unlink()
 
         if self.install_dir.exists():
