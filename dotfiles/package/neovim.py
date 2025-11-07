@@ -7,7 +7,7 @@ NAME = "neovim"
 URL = "https://github.com/neovim/neovim/releases/download/v{version}/nvim-linux-{arch}.tar.gz"
 
 
-def get_arch() -> str:
+def _get_arch() -> str:
     """Return the current platform architecture (arm64 or x86_64)."""
     machine = platform.machine().lower()
     if machine in ("x86_64", "amd64"):
@@ -29,7 +29,7 @@ class NeovimPackage(PackageAPI):
         )
 
     def install(self) -> None:
-        url = URL.format(version=VERSION, arch=get_arch())
+        url = URL.format(version=VERSION, arch=_get_arch())
         QuickInstallPackage(url=url, name=NAME, symbol={'bin/nvim': 'nvim'}).install()
 
     def uninstall(self) -> None:
