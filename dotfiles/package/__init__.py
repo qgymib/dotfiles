@@ -194,15 +194,23 @@ class Manager:
             self.packages[info.name.lower()] = i
         pass
 
-    def _discover_packages(self):
+    @staticmethod
+    def _discover_packages():
         import importlib
         package_dir = pathlib.Path(__file__).resolve().parent
 
-        for file in package_dir.glob("*.py"):
-            if file.name.startswith("_"):
-                continue
-            module_name = f"dotfiles.package.{file.stem}"
-            importlib.import_module(module_name)
+        orig_dont_write_bytecode = sys.dont_write_bytecode
+        sys.dont_write_bytecode = True
+
+        # Temporarily disable compile into bytecode.
+        try:
+            for file in package_dir.glob("*.py"):
+                if file.name.startswith("_"):
+                    continue
+                module_name = f"dotfiles.package.{file.stem}"
+                importlib.import_module(module_name)
+        finally:
+            sys.dont_write_bytecode = orig_dont_write_bytecode
 
     def install(self, package_name: str) -> None:
         name = package_name.lower()
