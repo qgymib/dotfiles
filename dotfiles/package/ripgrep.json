@@ -1,0 +1,40 @@
+{
+  "version": "15.1.0",
+  "architecture": {
+    "x86_64": {
+      "url": "https://github.com/BurntSushi/ripgrep/releases/download/15.1.0/ripgrep-15.1.0-x86_64-unknown-linux-musl.tar.gz"
+    },
+    "i686": {
+      "url": "https://github.com/BurntSushi/ripgrep/releases/download/15.1.0/ripgrep-15.1.0-i686-unknown-linux-gnu.tar.gz"
+    },
+    "arm": {
+      "url": "https://github.com/BurntSushi/ripgrep/releases/download/15.1.0/ripgrep-15.1.0-armv7-unknown-linux-musleabihf.tar.gz"
+    },
+    "aarch64": {
+      "url": "https://github.com/BurntSushi/ripgrep/releases/download/15.1.0/ripgrep-15.1.0-aarch64-unknown-linux-gnu.tar.gz"
+    }
+  },
+  "bin": {
+    "bat": "bat"
+  },
+  "update": {
+    "check": {
+      "url": "https://api.github.com/repos/BurntSushi/ripgrep/releases/latest",
+      "regex": "\\\"tag_name\\\":\\s*\\\"([\\d\\.]+)\\\""
+    },
+    "architecture": {
+      "x86_64": {
+        "url": "https://github.com/BurntSushi/ripgrep/releases/download/{version}/ripgrep-{version}-x86_64-unknown-linux-musl.tar.gz"
+      },
+      "i686": {
+        "url": "https://github.com/BurntSushi/ripgrep/releases/download/{version}/ripgrep-{version}-i686-unknown-linux-gnu.tar.gz"
+      },
+      "arm": {
+        "url": "https://github.com/BurntSushi/ripgrep/releases/download/{version}/ripgrep-{version}-armv7-unknown-linux-musleabihf.tar.gz"
+      },
+      "aarch64": {
+        "url": "https://github.com/BurntSushi/ripgrep/releases/download/{version}/ripgrep-{version}-aarch64-unknown-linux-gnu.tar.gz"
+      }
+    }
+  }
+}

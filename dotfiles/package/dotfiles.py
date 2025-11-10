@@ -16,7 +16,7 @@ class DotfilesPackage(PackageAPI):
     def info(self) -> PackageInfo:
         return PackageInfo(
             name="dotfiles",
-            out=[STARTUP_FILE],
+            bin=[STARTUP_FILE],
             version="0.0.1",
         )
 

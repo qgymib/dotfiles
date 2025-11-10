@@ -1,0 +1,28 @@
+{
+  "version": "0.11.5",
+  "architecture": {
+    "x86_64": {
+      "url": "https://github.com/neovim/neovim/releases/download/v0.11.5/nvim-linux-x86_64.tar.gz"
+    },
+    "aarch64": {
+      "url": "https://github.com/neovim/neovim/releases/download/v0.11.5/nvim-linux-arm64.tar.gz"
+    }
+  },
+  "bin": {
+    "dufs": "dufs"
+  },
+  "update": {
+    "check": {
+      "url": "https://api.github.com/repos/neovim/neovim/releases/latest",
+      "regex": "\\\"tag_name\\\":\\s*\\\"v([\\d\\.]+)\\\""
+    },
+    "architecture": {
+      "x86_64": {
+        "url": "https://github.com/neovim/neovim/releases/download/v{version}/nvim-linux-x86_64.tar.gz"
+      },
+      "aarch64": {
+        "url": "https://github.com/neovim/neovim/releases/download/v{version}/nvim-linux-arm64.tar.gz"
+      }
+    }
+  }
+}

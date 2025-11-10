@@ -7,9 +7,10 @@ import zipfile
 import tarfile
 import lzma
 import pathlib
+import hashlib
 from dataclasses import dataclass
 
-from dotfiles import DotFiles
+from dotfiles.path import DotFiles
 
 
 @dataclass
@@ -22,7 +23,7 @@ class PackageInfo:
     """
     The list of file name installed in the bin directory.
     """
-    out: list[str]
+    bin: list[str]
 
     """Application version."""
     version: str
@@ -50,7 +51,7 @@ class PackageAPI:
         """
         return PackageInfo(
             name="dotfiles",
-            out=[],
+            bin=[],
             version="",
         )
 
@@ -70,9 +71,10 @@ class PackageAPI:
 class QuickInstallPackage:
     supported_extensions = ['.tar.gz', '.tgz', '.tar.xz', '.txz', '.zip']
 
-    def __init__(self, url: str, name: str, symbol: dict[str, str]):
+    def __init__(self, url: str, name: str, sha256: str | None, symbol: dict[str, str]):
         self.url = url
         self.name = name
+        self.sha256 = sha256
         self.symbol = symbol
         self.install_dir = DotFiles.get_app_dir() / name
 
@@ -86,6 +88,15 @@ class QuickInstallPackage:
                 }))
             urllib.request.install_opener(opener)
             urllib.request.urlretrieve(self.url, temp_file.name)
+
+            if self.sha256:
+                # Calculate SHA256 hash of downloaded file
+                sha256_hash = hashlib.sha256()
+                with open(temp_file.name, "rb") as f:
+                    for byte_block in iter(lambda: f.read(4096), b""):
+                        sha256_hash.update(byte_block)
+                if sha256_hash.hexdigest() != self.sha256:
+                    raise ValueError(f"SHA256 hash mismatch for {self.name}")
 
             if self.install_dir.exists():
                 shutil.rmtree(self.install_dir)
@@ -182,57 +193,3 @@ class QuickUninstallPackage:
 
         if self.install_dir.exists():
             shutil.rmtree(self.install_dir)
-
-
-class Manager:
-    def __init__(self):
-        self.packages = {}
-        self._discover_packages()
-        instance = [cls() for cls in PackageAPI.registry.values()]
-        for i in instance:
-            info = i.info()
-            self.packages[info.name.lower()] = i
-        pass
-
-    @staticmethod
-    def _discover_packages():
-        import importlib
-        package_dir = pathlib.Path(__file__).resolve().parent
-
-        orig_dont_write_bytecode = sys.dont_write_bytecode
-        sys.dont_write_bytecode = True
-
-        # Temporarily disable compile into bytecode.
-        try:
-            for file in package_dir.glob("*.py"):
-                if file.name.startswith("_"):
-                    continue
-                module_name = f"dotfiles.package.{file.stem}"
-                importlib.import_module(module_name)
-        finally:
-            sys.dont_write_bytecode = orig_dont_write_bytecode
-
-    def install(self, package_name: str) -> None:
-        name = package_name.lower()
-        if name in self.packages:
-            print(f"Installing package {name}")
-            self.packages[name].install()
-            print(f"Package `{name}` installed")
-        else:
-            print(f"Package `{name}` not found")
-            sys.exit(1)
-
-    def uninstall(self, package_name: str) -> None:
-        name = package_name.lower()
-        if name in self.packages:
-            print(f"Uninstalling package `{name}`")
-            self.packages[name].uninstall()
-            print(f"Package `{name}` uninstalled")
-        else:
-            print(f"Package `{name}` not found")
-            sys.exit(1)
-
-    def search(self, pattern: str) -> None:
-        for name, instance in self.packages.items():
-            if pattern in name:
-                print(f"{name}: {instance.info().version}")

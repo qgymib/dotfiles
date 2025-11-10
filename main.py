@@ -4,9 +4,9 @@ import argparse
 
 import sys
 from typing import Iterable
-from dotfiles import DotFiles
+from dotfiles.path import DotFiles
+from dotfiles.package_manager import PackageManager
 from dotfiles.setup import install_path, uninstall_path
-from dotfiles.package import Manager
 
 
 def parse_args(argv: Iterable[str]) -> argparse.Namespace:
@@ -44,13 +44,13 @@ def main(argv: Iterable[str] | None = None) -> None:
         uninstall_path()
         return
     if getattr(args, "command", None) == "search":
-        Manager().search(args.pattern)
+        PackageManager().search(args.pattern)
         return
     if getattr(args, "command", None) == "install":
-        Manager().install(args.package_name)
+        PackageManager().install(args.package_name)
         return
     if getattr(args, "command", None) == "uninstall":
-        Manager().uninstall(args.package_name)
+        PackageManager().uninstall(args.package_name)
         return
     # Default behavior
     print(
