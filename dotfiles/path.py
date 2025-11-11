@@ -15,4 +15,4 @@ class DotFiles:
     @staticmethod
     def get_app_dir() -> pathlib.Path:
         """Return the absolute path to this project's apps directory."""
-        return DotFiles.get_bin_dir() / "apps"
+        return DotFiles.get_root_dir() / "apps"
