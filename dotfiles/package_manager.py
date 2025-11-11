@@ -26,8 +26,6 @@ def _get_arch() -> str:
     if machine in ("x86_64", "amd64"):
         return "x86_64"
     if machine in ("arm64", "aarch64"):
-        return "arm64"
-    if machine == "aarch64":
         return "aarch64"
     if machine.startswith("arm"):
         return "arm"
