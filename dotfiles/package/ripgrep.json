@@ -15,7 +15,7 @@
     }
   },
   "bin": {
-    "bat": "bat"
+    "rg": "rg"
   },
   "update": {
     "check": {

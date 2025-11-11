@@ -106,6 +106,8 @@ class QuickInstallPackage:
             bin_dir = DotFiles.get_bin_dir()
             for src, dst in self.symbol.items():
                 src_path = self.install_dir / src
+                if not src_path.exists():
+                    raise FileNotFoundError(f"Source file '{src_path}' does not exist")
                 dst_path = bin_dir / dst
                 if dst_path.exists():
                     dst_path.unlink()

@@ -9,7 +9,7 @@
     }
   },
   "bin": {
-    "dufs": "dufs"
+    "bin/nvim": "nvim"
   },
   "update": {
     "check": {
