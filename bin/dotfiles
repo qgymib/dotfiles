@@ -1,0 +1,25 @@
+#!/bin/bash
+
+SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
+PARENT_DIR="$(dirname "$SCRIPT_DIR")"
+
+# Check if python3 command exists
+if command -v python3 >/dev/null 2>&1; then
+    PYTHON_CMD="python3"
+else
+    # Check if python command exists and is version 3
+    if command -v python >/dev/null 2>&1; then
+        PYTHON_VERSION=$(python -c 'import sys; print(sys.version_info[0])')
+        if [ "$PYTHON_VERSION" = "3" ]; then
+            PYTHON_CMD="python"
+        else
+            echo "Python 3 is required but not found"
+            exit 1
+        fi
+    else
+        echo "Python 3 is required but not found"
+        exit 1
+    fi
+fi
+
+exec "$PYTHON_CMD" "$PARENT_DIR/main.py" "$@"
