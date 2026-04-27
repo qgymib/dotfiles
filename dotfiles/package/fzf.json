@@ -1,14 +1,17 @@
 {
-  "version": "0.66.1",
+  "version": "0.72.0",
   "architecture": {
     "x86_64": {
-      "url": "https://github.com/junegunn/fzf/releases/download/v0.66.1/fzf-0.66.1-linux_amd64.tar.gz"
+      "url": "https://github.com/junegunn/fzf/releases/download/v0.72.0/fzf-0.72.0-linux_amd64.tar.gz",
+      "sha256": "0e58e4bd0b3c5d68c56b54c460a6863d0de79633ed18d388575a960ab447b006"
     },
     "arm": {
-      "url": "https://github.com/junegunn/fzf/releases/download/v0.66.1/fzf-0.66.1-linux_armv7.tar.gz"
+      "url": "https://github.com/junegunn/fzf/releases/download/v0.72.0/fzf-0.72.0-linux_armv7.tar.gz",
+      "sha256": "da1edcbe6aaeb9e91a62af4ff07ca1daf4e2acb8b2a348316747510eb00021f2"
     },
     "aarch64": {
-      "url": "https://github.com/junegunn/fzf/releases/download/v0.66.1/fzf-0.66.1-linux_arm64.tar.gz"
+      "url": "https://github.com/junegunn/fzf/releases/download/v0.72.0/fzf-0.72.0-linux_arm64.tar.gz",
+      "sha256": "a0a5b50730f568c5f08b8dbba1e6e598db253e1856d371290086786b889b996b"
     }
   },
   "bin": {
